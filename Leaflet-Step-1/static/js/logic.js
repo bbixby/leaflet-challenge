@@ -52,43 +52,62 @@ function createMap(quakeData) {
         var earthquakeMarkers = [];
       
         // Loop through the features array
-        for (var index = 0; index < earthquakes.length; index++) {
-          var earthquake = earthquakes[index];
+        for (var i = 0; i < earthquakes.length; i++) {
+          var earthquake = earthquakes[i];
 
-        // Set circle color based on magnitude
-         var quakeColor = "";
+        //choose circle color based on mag
+          function chooseColor(mag) {
+            switch (true) {
+            case mag < 1:
+              return "green";
+            case mag < 2:
+              return "greenyellow";
+            case mag < 3:
+              return "yellow";
+            case mag < 4:
+              return "orange";
+            case mag < 5:
+              return "darkorange";
+            default:
+              return "red";
+            }
+          };
+          
 
-         if (earthquake.properties.mag < 1) {
-         //green
-         quakeColor = "#008000";
-         }
-         else if (earthquake.properties.mag < 2) {
-         //green-yellow
-         quakeColor = "#adff2f";
-         }
-         else if (earthquake.properties.mag  < 3) {
-         //yellow
-         quakeColor = "#FFFF00";
-         }
-         else if (earthquake.properties.mag  < 4) {
-         //orange
-         quakeColor = "#FFA500";
-          }
-         else if (earthquake.properties.mag  < 5) {
-          //orange-red
-          quakeColor = "#FF4500";
-         }
-          else {
-         //red
-         quakeColor = "#FF0000";
-         };
+        // // Set circle color based on magnitude
+        //  var quakeColor = "";
+
+        //  if (earthquake.properties.mag < 1) {
+        //  //green
+        //  quakeColor = "#008000";
+        //  }
+        //  else if (earthquake.properties.mag < 2) {
+        //  //green-yellow
+        //  quakeColor = "#adff2f";
+        //  }
+        //  else if (earthquake.properties.mag  < 3) {
+        //  //yellow
+        //  quakeColor = "#FFFF00";
+        //  }
+        //  else if (earthquake.properties.mag  < 4) {
+        //  //orange
+        //  quakeColor = "#FFA500";
+        //   }
+        //  else if (earthquake.properties.mag  < 5) {
+        //   //orange-red
+        //   quakeColor = "#FF4500";
+        //  }
+        //   else {
+        //  //red
+        //  quakeColor = "#FF0000";
+        //  };
       
           // For each earthquake, create a circle and bind a popup with the earthquake's place and magnitued (mag)
           var earthquakeMarker = L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], {
               fillOpacity: 0.8,
               //set the color based on the above logic
-              color: quakeColor,
-              fillColor: quakeColor,
+              color: "black",//chooseColor(earthquake.properties.mag),
+              fillColor: chooseColor(earthquake.properties.mag),
               //set the radius to the magnitued times X for better display
               radius: (earthquake.properties.mag * 40000)
           })
