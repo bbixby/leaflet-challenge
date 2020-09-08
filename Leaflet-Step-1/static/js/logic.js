@@ -7,6 +7,7 @@ function createMap(quakeData) {
     var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
       attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
       maxZoom: 10,
+      minZoom: 0,
       id: "light-v10",
       accessToken: API_KEY
     });
@@ -27,7 +28,7 @@ function createMap(quakeData) {
 
   // Create an overlayMaps object to hold the quakeData layer
   var overlayMaps = {
-    "Significant Earthquakes": quakeData
+    "7 Days of Earthquakes": quakeData
   };
 
     // Create the map object with options
@@ -105,8 +106,10 @@ function createMap(quakeData) {
           // For each earthquake, create a circle and bind a popup with the earthquake's place and magnitued (mag)
           var earthquakeMarker = L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], {
               fillOpacity: 0.8,
-              //set the color based on the above logic
-              color: "black",//chooseColor(earthquake.properties.mag),
+            //set circle outline to thin black
+              color: "black",//alternative to have full color circles: chooseColor(earthquake.properties.mag),
+              weight: 1,
+                //set the color based on the chooseColor function passing mag
               fillColor: chooseColor(earthquake.properties.mag),
               //set the radius to the magnitued times X for better display
               radius: (earthquake.properties.mag * 40000)
