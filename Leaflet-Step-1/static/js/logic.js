@@ -42,7 +42,41 @@ function createMap(quakeData) {
       L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
       }).addTo(map);
-    }
+
+//Legend Time
+  //function to return legend colors; d variable is the passed mag from list below
+      function getColor(d) {
+        return d > 5 ? 'red' :
+               d > 4  ? 'darkorange' :
+               d > 3  ? 'orange' :
+               d > 2  ? 'yellow' :
+               d > 1   ? 'greenyellow' :
+                          'green';
+    };
+
+//control to add legend
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+//included supporting css for info, info h4, legend, and legend i; h/t https://leafletjs.com/examples/choropleth/
+  var div = L.DomUtil.create('div', 'info legend'),
+      mag = [0, 1, 2, 3, 4, 5],
+      labels = [];
+
+  // loop through our magnitude intervals and generate a label with a colored square for each interval
+  for (var i = 0; i < mag.length; i++) {
+      div.innerHTML +=
+          '<i style="background:' + getColor(mag[i] + 1) + '"></i> ' +
+          mag[i] + (mag[i + 1] ? '&ndash;' + mag[i + 1] + '<br>' : '+');
+  }
+
+  return div;
+};
+
+legend.addTo(map);
+    };
+//end Legend Time
 
     function createMarkers(response) {
 
@@ -93,7 +127,7 @@ function createMap(quakeData) {
       
         // Create a layer group made from the bike markers array, pass it into the createMap function
         createMap(L.layerGroup(earthquakeMarkers));
-      }
+      };
 
-// Perform an API call to the Citi Bike API to get station information. Call createMarkers when complete
+// Perform an API call to the Earthquake API to get station information. Call createMarkers when complete
 d3.json(quakeURL, createMarkers);
