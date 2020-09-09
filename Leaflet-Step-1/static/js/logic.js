@@ -73,35 +73,6 @@ function createMap(quakeData) {
               return "red";
             }
           };
-          
-
-        // // Set circle color based on magnitude
-        //  var quakeColor = "";
-
-        //  if (earthquake.properties.mag < 1) {
-        //  //green
-        //  quakeColor = "#008000";
-        //  }
-        //  else if (earthquake.properties.mag < 2) {
-        //  //green-yellow
-        //  quakeColor = "#adff2f";
-        //  }
-        //  else if (earthquake.properties.mag  < 3) {
-        //  //yellow
-        //  quakeColor = "#FFFF00";
-        //  }
-        //  else if (earthquake.properties.mag  < 4) {
-        //  //orange
-        //  quakeColor = "#FFA500";
-        //   }
-        //  else if (earthquake.properties.mag  < 5) {
-        //   //orange-red
-        //   quakeColor = "#FF4500";
-        //  }
-        //   else {
-        //  //red
-        //  quakeColor = "#FF0000";
-        //  };
       
           // For each earthquake, create a circle and bind a popup with the earthquake's place and magnitued (mag)
           var earthquakeMarker = L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], {
@@ -114,7 +85,7 @@ function createMap(quakeData) {
               //set the radius to the magnitued times X for better display
               radius: (earthquake.properties.mag * 40000)
           })
-            .bindPopup("<h3>" + earthquake.properties.place + "<h3><h3>Magnitude: " + earthquake.properties.mag + "</h3>");
+            .bindPopup("<h3>" + "<a href='" + earthquake.properties.url + "' target='_blank' style='text-decoration: none''>" + earthquake.properties.place + "</a>" + "<h3><h3>Magnitude: " + earthquake.properties.mag + "</h3>");
       
           // Add the marker to the bikeMarkers array
           earthquakeMarkers.push(earthquakeMarker);
