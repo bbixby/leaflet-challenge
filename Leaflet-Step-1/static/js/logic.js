@@ -121,11 +121,11 @@ legend.addTo(map);
           })
             .bindPopup("<h3>" + "<a href='" + earthquake.properties.url + "' target='_blank' style='text-decoration: none''>" + earthquake.properties.place + "</a>" + "<h3><h3>Magnitude: " + earthquake.properties.mag + "</h3>");
       
-          // Add the marker to the bikeMarkers array
+          // Add the marker to the earthquakeMarkers array
           earthquakeMarkers.push(earthquakeMarker);
         }
       
-        // Create a layer group made from the bike markers array, pass it into the createMap function
+        // Create a layer group made from the quake markers array, pass it into the createMap function
         createMap(L.layerGroup(earthquakeMarkers));
       };
 
