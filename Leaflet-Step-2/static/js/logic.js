@@ -73,7 +73,7 @@ d3.json(quakeURL,function(responseQuake) {
                   }
               })
           
-  //variable for quakeData featurs section = earthquakes
+  //variable for quakeData features section = earthquakes
   var earthquakes = responseQuake.features
   // Initialize an array to hold earthquake markers
   var earthquakeMarkers = []
@@ -97,15 +97,15 @@ d3.json(quakeURL,function(responseQuake) {
    };
 
 //Legend Time
-  //function to return legend colors; d variable is the passed mag from list below
-  function getColor(d) {
-    return d > 5 ? 'red' :
-           d > 4  ? 'darkorange' :
-           d > 3  ? 'orange' :
-           d > 2  ? 'yellow' :
-           d > 1   ? 'greenyellow' :
-                      'green';
-};
+  //REDUNDANT; edited legend to use chooseColor instead of getColor function to return legend colors; d variable is the passed mag from list below
+//   function getColor(d) {
+//     return d > 5 ? 'red' :
+//            d > 4  ? 'darkorange' :
+//            d > 3  ? 'orange' :
+//            d > 2  ? 'yellow' :
+//            d > 1   ? 'greenyellow' :
+//                       'green';
+// };
 //control to add legend
 var legend = L.control({position: 'bottomright'});
 
@@ -119,7 +119,7 @@ legend.onAdd = function (map) {
   // loop through our magnitude intervals and generate a label with a colored square for each interval
   for (var i = 0; i < mag.length; i++) {
       div.innerHTML +=
-          '<i style="background:' + getColor(mag[i] + 1) + '"></i> ' +
+          '<i style="background:' + chooseColor(mag[i] ) + '"></i> ' +
           mag[i] + (mag[i + 1] ? '&ndash;' + mag[i + 1] + '<br>' : '+');
   }
 
