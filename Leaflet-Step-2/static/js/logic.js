@@ -45,7 +45,7 @@ function createMap(earthquakes, plates, legend) {
   var myMap = L.map("map", {
     center: [37.09, -95.71],
     zoom: 3,
-    //start with lightmap and both earthquakes and plates checked on
+    //start with satellitemap and both earthquakes and plates checked on
     layers: [satellitemap, earthquakes, plates]
   });
  
@@ -59,26 +59,27 @@ function createMap(earthquakes, plates, legend) {
 //call json URLs nested
 //first earthquakes
 d3.json(quakeURL,function(responseQuake) {
-          //nested fault lines
-          d3.json(plateURL, function(data) {
-              //variable for fault lines = plates
-              var plates = L.geoJson(data, {
-                  // Style each feature (in this case the fault lines)
-                  style: function (feature) {
-                      return {
-                          color: "darkorange",
-                          fillColor: "none",
-                          weight: 1.5
-                      };
-                  }
-              })
+  //nested fault lines
+  d3.json(plateURL, function(data) {
+    //variable for fault lines = plates
+    var plates = L.geoJson(data, {
+        // Style each feature (in this case the fault lines)
+        style: function (feature) {
+          return {
+            color: "darkorange",
+            fillColor: "none",
+            weight: 1.5
+          };
+        }
+    });
+  //var plates now contains plateURL geJson data
           
   //variable for quakeData features section = earthquakes
   var earthquakes = responseQuake.features
   // Initialize an array to hold earthquake markers
   var earthquakeMarkers = []
 
-  //choose circle color based on mag
+  //choose circle and legend colors based on mag
   function chooseColor(mag) {
     switch (true) {
     case mag < 1:
@@ -96,33 +97,20 @@ d3.json(quakeURL,function(responseQuake) {
     }
    };
 
-//Legend Time
-  //REDUNDANT; edited legend to use chooseColor instead of getColor function to return legend colors; d variable is the passed mag from list below
-//   function getColor(d) {
-//     return d > 5 ? 'red' :
-//            d > 4  ? 'darkorange' :
-//            d > 3  ? 'orange' :
-//            d > 2  ? 'yellow' :
-//            d > 1   ? 'greenyellow' :
-//                       'green';
-// };
-//control to add legend
+//Legend Time: control to add legend
 var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
-
 //included supporting css for info, info h4, legend, and legend i; h/t https://leafletjs.com/examples/choropleth/
   var div = L.DomUtil.create('div', 'info legend'),
       mag = [0, 1, 2, 3, 4, 5],
       labels = [];
-
   // loop through our magnitude intervals and generate a label with a colored square for each interval
   for (var i = 0; i < mag.length; i++) {
       div.innerHTML +=
           '<i style="background:' + chooseColor(mag[i] ) + '"></i> ' +
           mag[i] + (mag[i + 1] ? '&ndash;' + mag[i + 1] + '<br>' : '+');
   }
-
   return div;
 };
 //Legend Time done
@@ -153,7 +141,5 @@ legend.onAdd = function (map) {
         }
     //call createMap with layerGroup(earthquakeMarkers), var plates, and var legend
     createMap(L.layerGroup(earthquakeMarkers), plates, legend);
-
-
   })
 });
